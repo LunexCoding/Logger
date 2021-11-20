@@ -42,7 +42,7 @@
     │  ├─ __init__.py
     │  └─ log.py
     ├─ README.md
-    ├─ main.py
+    └─ main.py
     ```
 
 2. Импортируйте Logger:
