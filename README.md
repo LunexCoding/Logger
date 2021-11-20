@@ -47,17 +47,19 @@
 
 2. Импортируйте Logger:
 
-    `from Logger import logger`
+    ```python
+    from Logger import logger
 
-3. Создайте регистратор с указанием именем:
+    #Создайте регистратор с указанием именем:
 
-    `LOGGER = logger.getLogger(__name__)`
+    LOGGER = logger.getLogger(__name__)
 
-4. Используйте объект LOGGER:
+    #Используйте объект LOGGER:
 
-    `LOGGER.info(message)`
+    LOGGER.info(message)
+    ```
 
-    [Смотрите здесь](https://docs.python.org/3/library/logging.html)
+   Если возникли вопросы по использованию LOGGER, [смотрите здесь](https://docs.python.org/3/library/logging.html)
 
 ---
 
