@@ -4,16 +4,15 @@ import os
 class Log:
     def __init__(self):
         try:
-            os.mkdir('./logs')
-            os.chdir('./logs')
+            os.mkdir('logs')
         except OSError:
-            os.chdir('./logs')
+            pass
 
     def getLogger(self, name):
         logger = logging.getLogger(name)
         logger.setLevel(logging.DEBUG)
 
-        fh = logging.FileHandler('app.log')
+        fh = logging.FileHandler('logs/app.log')
         fh.setLevel(logging.DEBUG)
 
         logFormat = '[%(asctime)s] -> %(name)s -> [%(levelname)s]: %(message)s'
