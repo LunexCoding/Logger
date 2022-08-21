@@ -11,7 +11,6 @@ except OSError:
 class Logger:
     def __init__(self):
         self._logFile = os.path.join(os.path.abspath('logs'), 'app.log')
-        print(self._logFile)
         self._logFormat = '[%(asctime)s] -> %(name)s -> [%(levelname)s]: %(message)s'
         self._dateFormat = '%d-%b-%y %H:%M'
 
