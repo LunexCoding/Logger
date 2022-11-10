@@ -1,77 +1,137 @@
-# Логирование неотъемлемая часть разработки
+The module can be useful for those who do not want to fiddle with constant logging settings, or use some kind of format on a permanent basis with the ability to change settings if necessary. Written using the `logging` module.
 
-Во время разработки приходится множественно производить отладку кода на ошибки. Тут есть 2 способа:
+Representing the `logger` instance and the `Logger` class
 
-+ выводить какую-либо информацию использую `print()`;
+# The difference between the tools provided
 
-+ использовать дебаггер.
+As previously discovered, the `logger` instance and class `Logger`.
 
-Эти способы актуальны для относительно небольших приложений. В довольно крупных приложениях, использующие несколько модулей, актуальность этих способов вовсе пропадает.
+## logger
 
-## Logger как способ централизации вашего логирования
+It is an instance of the `Logger` class. Provided with [default-parameters](#default-options), with the ability to [change](#change-settings)
 
-Модуль подойдет тем, кто не хочет сильно замарачиваться с постоянной настройкой логирования или же использовать некий формат на постоянной основе.
+## Logger
 
-Данный модуль уже имеет первоначальную настройку, а именно:
+The class that will be initialized using the passed or default parameters.
 
-+ все логи попадают в созданую модулем папку logs;
+# Usage
 
-+ отключенно логирование импортируемых библиотек.
-
-+ некий формат лога:
-
-    `[data] -> name -> [levelname]: message`
-
-    `[20-Nov-21 09:12] -> __main__ -> [INFO]: Start log`
-
-    **Вы также можите изменить все настройки под себя.**
-
-## Использование
-
-Для начала работы нужно выполнить небольшую инструкцию:
-
-1. Склонируйте Logger в директорию своего проекта:
+1. Clone the Logger into the project directory:
 
     `git clone https://github.com/LunexCoding/Logger.git`
 
-    Получится примерная структура:
-
-    ```
-    Project
-    ├─ Logger
-    │  ├─ __init__.py
-    │  └─ log.py
-    ├─ README.md
-    └─ main.py
-    ```
-
-2. Импортируйте Logger:
+2. Import:
 
     ```python
-    from Logger import logger
-
-    #Создайте регистратор с указанием именем:
-
-    LOGGER = logger.getLogger(__name__)
-
-    #Используйте объект LOGGER:
-
-    LOGGER.info(message)
+    from Logger import Logger, logger
     ```
 
-   Если возникли вопросы по использованию LOGGER, [смотрите здесь](https://docs.python.org/3/library/logging.html)
+    > For the difference between `Logger` and `logger`, see [this section](#the-difference-between-the-tools-provided)
 
----
+3. If necessary, configure the logger.
 
-После запуска кода у вас будет такая структура:
+# Setting
 
+## Default options
+
+`DEFAULT_LOG_DIR_PATH` - working directory of the logger, where logs will be created. Default `logs`
+
+`DEFAULT_LOG_FILENAME` - the name of the log file. Default `app.log`
+    
+`DEFAULT_DATE_FORMAT` - date format. Default `%d-%b-%y %H:%M`
+    
+`DEFAULT_LOG_FORMAT` - log entry format. Default `[%(asctime)s] -> %(name)s -> [%(levelname)s]: %(message)s`
+
+`DEFAULT_LOG_MODE` - file mode. Default `a`:
+  * `w` and `w+` - If the file exists, it truncates the file.
+  * `a` - Open file in append mode.
+
+## Change settings
+
+The `logger` object is provided with the following methods for changing parameters:
+
+```python
+logger.setLogFile(filename) # change log file name
+logger.setDateFormat(dateFormat) # change date format
+logger.setLogFormat(logFormat) # change log format
+logger.setLogMode(mode) # change log file mode
 ```
-Logger
-├─ Logger
-│  ├─ __init__.py
-│  └─ log.py
-├─ README.md
-├─ logs
-│  └─ app.log
-└─ main.py
+
+> The above methods apply to a customizable logger from scratch, section below.
+ 
+ ## Logger setup from scratch
+ 
+ 1. Import:
+ 
+    ```python
+    from Logger import Logger
+    ```
+    
+ 2. Create an object of class `Logger`:
+ 
+ ```python
+ logger = logger()
+ ```
+ 
+ ```python
+ logger = Logger(dateFormat, logFormat, mode)
+ ```
+ 
+ The class constructor can take arguments:
+ * `dateFormat`
+ * `logFormat`
+ * `mode`
+ 
+ If they are absent, [default-parameters](#default-options) will be used.
+ 
+ 
+3. Initialization of the workspace of the logger:
+
+```python
+logger.createLog()
 ```
+
+```python
+logger.createLog(dir, filename)
+```
+
+The `createLog` method takes arguments:
+* `dir` - directory where the log file will be created.
+* `filename`
+
+If none are present, <default values> will be used.
+
+4. Creating a registrar:
+
+```python
+log = logger.getLogger(__name__)
+```
+
+The `getLogger` method takes an argument: `name`.
+
+5. Use [logging](https://docs.python.org/3/library/logging.html) methods
+
+> If necessary [settings can be changed](#change-settings)
+
+# Centralization of logging
+
+When writing programs in a modular way using Logger, logging can be centralized. To do this, you need a new module.
+
+1. Create a new module `logger.py` (you can use any name):
+
+   ```python
+   from Logger import Logger
+
+
+   logger = logger()
+   logger.createLog()
+   ```
+
+2. Adding a registrar to the required module:
+
+    ```python
+    from logger import logger
+
+    
+    log = logger.getLogger(__name__)
+    ```
