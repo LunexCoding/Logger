@@ -17,11 +17,6 @@ class Logger:
         self._logFormat = logFormat
         self._mode = mode
 
-    def __init__(self):
-        self._logFile = os.path.join(os.path.abspath('logs'), 'app.log')
-        self._logFormat = '[%(asctime)s] -> %(name)s -> [%(levelname)s]: %(message)s'
-        self._dateFormat = '%d-%b-%y %H:%M'
-
     def createLog(self, dir=DEFAULT_LOG_DIR_PATH, filename=DEFAULT_LOG_FILENAME):
         self._dir = Path(dir)
         self._dir.mkdir(exist_ok=True)
